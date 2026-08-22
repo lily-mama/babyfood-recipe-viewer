@@ -1,39 +1,147 @@
 export const INITIAL_RECIPES = [
   {
     id: '10bai-gayu',
-    title: '10倍がゆ',
+    title: '10倍粥（基本）',
     stage: '初期',
     category: '炭水化物',
     imageSvg: 'rice',
     colorBg: '#FDFBF7',
-    ingredients: '水 200ml, 生米 20g',
-    buttonToPress: 'potage & paste',
-    hasEaten: true,
-    memo: '離乳食初日に挑戦！裏ごし不要で滑らかに出来上がり、とてもよく食べてくれました。'
+    ingredients: '水 400ml, 生米 40g',
+    buttonToPress: 'POTAGE & PASTE',
+    hasEaten: false,
+    memo: '★おかゆはこれをベースに♪'
   },
   {
     id: 'ninjin-paste',
-    title: '人参ペースト',
+    title: 'にんじん',
     stage: '初期',
     category: '野菜・果物',
     imageSvg: 'carrot',
     colorBg: '#FFF8F0',
-    ingredients: '人参 100g, 湯（または茹で汁）大さじ1〜2',
-    buttonToPress: 'potage & paste',
-    hasEaten: true,
-    memo: 'レンジ加熱後にボタン操作。甘みがあって完食。'
+    ingredients: '水 100ml, にんじん 100g',
+    buttonToPress: 'POTAGE & PASTE',
+    hasEaten: false,
+    memo: '甘みがあって人気♪'
   },
   {
     id: 'kabocha-paste',
-    title: 'かぼちゃペースト',
+    title: 'かぼちゃ',
     stage: '初期',
     category: '野菜・果物',
     imageSvg: 'pumpkin',
     colorBg: '#FFFBE6',
-    ingredients: 'かぼちゃ（皮・種なし） 80g, 湯またはミルク 大さじ2〜3',
-    buttonToPress: 'potage & paste',
+    ingredients: '水 100ml, かぼちゃ 100g',
+    buttonToPress: 'POTAGE & PASTE',
     hasEaten: false,
-    memo: '皮を厚めに剥くのがコツ。次回試す予定。'
+    memo: '自然な甘みで食べやすい♪'
+  },
+  {
+    id: 'satsumaimo-paste',
+    title: 'さつまいも',
+    stage: '初期',
+    category: '野菜・果物',
+    imageSvg: 'sweetpotato',
+    colorBg: '#FFF5F5',
+    ingredients: '水 100ml, さつまいも 90g',
+    buttonToPress: 'POTAGE & PASTE',
+    hasEaten: false,
+    memo: 'やさしい甘さ♪'
+  },
+  {
+    id: 'jagaimo-paste',
+    title: 'じゃがいも',
+    stage: '初期',
+    category: '野菜・果物',
+    imageSvg: 'potato',
+    colorBg: '#FEFDF8',
+    ingredients: '昆布出汁 100ml, じゃがいも 80g',
+    buttonToPress: 'POTAGE & PASTE',
+    hasEaten: false,
+    memo: 'なめらかでクセがない♪'
+  },
+  {
+    id: 'tamanegi-paste',
+    title: '玉ねぎ',
+    stage: '初期',
+    category: '野菜・果物',
+    imageSvg: 'onion',
+    colorBg: '#FFFDF5',
+    ingredients: '昆布出汁 80ml, 玉ねぎ 140g',
+    buttonToPress: 'POTAGE & PASTE',
+    hasEaten: false,
+    memo: '甘みがあって食べやすい♪'
+  },
+  {
+    id: 'hourensou-paste',
+    title: 'ほうれん草（葉のみ）',
+    stage: '初期',
+    category: '野菜・果物',
+    imageSvg: 'spinach',
+    colorBg: '#F6FFED',
+    ingredients: '水 130ml, ほうれん草（葉のみ） 70g, 生米 18g',
+    buttonToPress: 'POTAGE & PASTE',
+    hasEaten: false,
+    memo: '鉄分補給におすすめ♪'
+  },
+  {
+    id: 'cabbage-paste',
+    title: 'キャベツ',
+    stage: '初期',
+    category: '野菜・果物',
+    imageSvg: 'cabbage',
+    colorBg: '#F6FFED',
+    ingredients: '昆布出汁 80ml, キャベツ 150g',
+    buttonToPress: 'POTAGE & PASTE',
+    hasEaten: false,
+    memo: 'やわらかくて食べやすい♪'
+  },
+  {
+    id: 'ringo-paste',
+    title: 'りんご',
+    stage: '初期',
+    category: '野菜・果物',
+    imageSvg: 'apple',
+    colorBg: '#FFF0F5',
+    ingredients: '水 80ml, りんご 150g',
+    buttonToPress: 'POTAGE & PASTE',
+    hasEaten: false,
+    memo: 'すりおろしに比べて楽ちん♪'
+  },
+  {
+    id: 'tomato-paste',
+    title: 'トマト（皮・種を除く）',
+    stage: '初期',
+    category: '野菜・果物',
+    imageSvg: 'tomato',
+    colorBg: '#FFF1F0',
+    ingredients: 'トマト 180g (1個)',
+    buttonToPress: 'POTAGE & PASTE',
+    hasEaten: false,
+    memo: 'ビタミンがたっぷり♪'
+  },
+  {
+    id: 'pan-gayu',
+    title: 'パン粥（食パンで）',
+    stage: '初期',
+    category: '炭水化物',
+    imageSvg: 'bread',
+    colorBg: '#FFFBE6',
+    ingredients: '水 150ml, 食パン（耳を取る） 1枚',
+    buttonToPress: 'POTAGE & PASTE',
+    hasEaten: false,
+    memo: 'やさしい味で食べやすい♪'
+  },
+  {
+    id: 'shirasu-gayu',
+    title: 'しらす粥',
+    stage: '初期',
+    category: 'タンパク質',
+    imageSvg: 'shirasu',
+    colorBg: '#E6F7FF',
+    ingredients: '水 150ml, 生米 20g, しらす 50g',
+    buttonToPress: 'POTAGE & PASTE',
+    hasEaten: false,
+    memo: 'たんぱく質補給におすすめ♪'
   },
   {
     id: '7bai-gayu',
@@ -76,3 +184,29 @@ export const INITIAL_RECIPES = [
 export const STAGES = ['すべて', '初期', '中期', '後期'];
 
 export const CATEGORIES = ['すべて', '炭水化物', '野菜・果物', 'タンパク質'];
+
+export const BASIC_GUIDELINES = {
+  title: 'récolteでつくる 離乳食初期ガイド (5〜6か月頃)',
+  subtitle: 'なめらかなペースト状が目安。まずは1日1回1さじから始めましょう。',
+  ratios: [
+    { title: '根菜・いも類', rule: '水100mlに対して 食材80〜100g' },
+    { title: '葉物類・その他', rule: '水80mlに対して 食材150〜180g' }
+  ],
+  steps: [
+    '材料を適当な大きさに切る',
+    'レコルトポットに入れる',
+    '「POTAGE & PASTE」モードを選ぶ',
+    '約25〜30分となめらかペーストの完成！'
+  ],
+  storage: [
+    '1回分ずつ小分けにして冷凍保存（製氷皿 1ブロック15ml が便利♪）',
+    '1週間を目安に使い切りましょう。'
+  ],
+  portion: 'なめらかなペースト状で、小さじ1(5ml)から始めて、小さじ6(30ml)程度を目安に、様子を見ながら増やしましょう。',
+  points: [
+    '食材はやわらかくなるまでしっかり加熱しましょう。',
+    '出来上がったら、裏ごしまたはなめらかにすりつぶすと、より食べやすくなります。',
+    '食材は新鮮なものを使い、アレルギーの心配があるものは医師に相談しましょう。',
+    '食べ残したものの再加熱は避けましょう。'
+  ]
+};

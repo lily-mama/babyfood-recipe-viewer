@@ -3,12 +3,14 @@ import Navbar from './components/Navbar';
 import RecipeCard from './components/RecipeCard';
 import RecipeModal from './components/RecipeModal';
 import AddRecipeModal from './components/AddRecipeModal';
-import { INITIAL_RECIPES, STAGES, CATEGORIES } from './data/recipes';
-import { Search, CheckCircle, Sparkles, X } from 'lucide-react';
+import { INITIAL_RECIPES, STAGES, CATEGORIES, BASIC_GUIDELINES } from './data/recipes';
+import { Search, CheckCircle, Sparkles, X, BookOpen, ChevronDown, ChevronUp, Info, Snowflake, RefreshCw } from 'lucide-react';
 
 export default function App() {
+  const STORAGE_KEY = 'simple_babyfood_recipes_v3';
+
   const [recipes, setRecipes] = useState(() => {
-    const saved = localStorage.getItem('simple_babyfood_recipes_v2');
+    const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       try { return JSON.parse(saved); } catch (e) { return INITIAL_RECIPES; }
     }
@@ -19,13 +21,14 @@ export default function App() {
   const [selectedStage, setSelectedStage] = useState('すべて');
   const [selectedCategory, setSelectedCategory] = useState('すべて');
   const [showEatenOnly, setShowEatenOnly] = useState(false);
+  const [showGuide, setShowGuide] = useState(false);
 
   const [activeModalRecipe, setActiveModalRecipe] = useState(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   // Sync state with LocalStorage
   useEffect(() => {
-    localStorage.setItem('simple_babyfood_recipes_v2', JSON.stringify(recipes));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(recipes));
   }, [recipes]);
 
   // Toggle eaten status
@@ -52,6 +55,14 @@ export default function App() {
   // Delete recipe
   const handleDeleteRecipe = (id) => {
     setRecipes(prev => prev.filter(r => r.id !== id));
+  };
+
+  // Reset to default recipes
+  const handleResetDefaultRecipes = () => {
+    if (window.confirm('初期レシピデータ（IMG_2155版）にリセットしますか？追加したカスタムレシピや食べた状態も初期化されます。')) {
+      setRecipes(INITIAL_RECIPES);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_RECIPES));
+    }
   };
 
   // Filtered recipes
@@ -92,6 +103,96 @@ export default function App() {
       />
 
       <main className="max-w-6xl mx-auto px-3 sm:px-6 pt-4 sm:pt-6 space-y-4 sm:space-y-6">
+        {/* Guide Accordion Banner */}
+        <div className="bg-gradient-to-r from-amber-500 via-orange-400 to-amber-500 rounded-2xl shadow-sm text-white overflow-hidden border border-amber-400/40">
+          <button
+            onClick={() => setShowGuide(!showGuide)}
+            className="w-full px-4 py-3.5 sm:px-5 flex items-center justify-between hover:bg-black/5 transition-colors text-left"
+          >
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center shrink-0">
+                <BookOpen className="w-4 h-4 text-white" />
+              </div>
+              <div>
+                <h2 className="text-xs sm:text-sm font-bold tracking-tight">
+                  {BASIC_GUIDELINES.title}
+                </h2>
+                <p className="text-[10px] sm:text-xs text-amber-100 opacity-90">
+                  {BASIC_GUIDELINES.subtitle}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-1 text-xs font-semibold bg-white/20 px-2.5 py-1 rounded-lg backdrop-blur-xs shrink-0">
+              <span>{showGuide ? '閉じる' : '基本ガイドを見る'}</span>
+              {showGuide ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            </div>
+          </button>
+
+          {showGuide && (
+            <div className="bg-white text-gray-800 p-4 sm:p-6 border-t border-amber-200/60 space-y-4 sm:space-y-5 animate-fade-in text-xs sm:text-sm">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Ratios & How to make */}
+                <div className="bg-amber-50/70 p-3.5 rounded-xl border border-amber-200/60 space-y-2">
+                  <h3 className="font-bold text-amber-900 flex items-center gap-1.5 text-xs sm:text-sm">
+                    <Info className="w-4 h-4 text-amber-600 shrink-0" />
+                    <span>基本の材料の目安（水分に対する食材量）</span>
+                  </h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                    {BASIC_GUIDELINES.ratios.map((item, idx) => (
+                      <div key={idx} className="bg-white p-2.5 rounded-lg border border-amber-100 shadow-2xs">
+                        <span className="font-bold text-amber-800 block text-[11px] mb-0.5">{item.title}</span>
+                        <span className="text-gray-700 font-medium">{item.rule}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Storage & Portion */}
+                <div className="bg-blue-50/60 p-3.5 rounded-xl border border-blue-200/60 space-y-2">
+                  <h3 className="font-bold text-blue-900 flex items-center gap-1.5 text-xs sm:text-sm">
+                    <Snowflake className="w-4 h-4 text-blue-600 shrink-0" />
+                    <span>保存＆1回の量の目安</span>
+                  </h3>
+                  <ul className="space-y-1 text-xs text-gray-700 list-disc list-inside">
+                    {BASIC_GUIDELINES.storage.map((st, i) => (
+                      <li key={i} className="leading-relaxed">{st}</li>
+                    ))}
+                  </ul>
+                  <p className="text-[11px] text-blue-800 font-medium bg-white p-2 rounded-lg border border-blue-100">
+                    💡 {BASIC_GUIDELINES.portion}
+                  </p>
+                </div>
+              </div>
+
+              {/* Steps & Points */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+                {/* Steps */}
+                <div className="space-y-1.5">
+                  <h4 className="font-bold text-gray-800 text-xs sm:text-xs">作り方の流れ（POTAGE & PASTE モード）</h4>
+                  <ol className="space-y-1 text-xs text-gray-600 list-decimal list-inside bg-gray-50 p-3 rounded-xl border border-gray-200/60">
+                    {BASIC_GUIDELINES.steps.map((step, i) => (
+                      <li key={i} className="leading-relaxed font-medium">{step}</li>
+                    ))}
+                  </ol>
+                </div>
+
+                {/* Points */}
+                <div className="space-y-1.5">
+                  <h4 className="font-bold text-gray-800 text-xs sm:text-xs">作るときのポイント</h4>
+                  <ul className="space-y-1 text-[11px] text-gray-600 bg-gray-50 p-3 rounded-xl border border-gray-200/60">
+                    {BASIC_GUIDELINES.points.map((pt, i) => (
+                      <li key={i} className="leading-relaxed flex items-start gap-1">
+                        <span className="text-amber-500 font-bold shrink-0">•</span>
+                        <span>{pt}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
         {/* Stage Filter Tabs (全時期 / 初期 / 中期 / 後期) */}
         <div className="bg-white rounded-2xl p-1 sm:p-1.5 border border-amber-100 shadow-xs grid grid-cols-4 gap-1">
           {STAGES.map(stage => {
@@ -173,22 +274,32 @@ export default function App() {
           </div>
         </div>
 
-        {/* Results Count & Filter Reset */}
+        {/* Results Count & Actions */}
         <div className="flex items-center justify-between text-xs text-gray-500 px-1 font-medium">
           <span>該当レシピ: <strong className="text-gray-800">{filteredRecipes.length}</strong> 件</span>
-          {(selectedStage !== 'すべて' || selectedCategory !== 'すべて' || showEatenOnly || searchQuery) && (
+          <div className="flex items-center gap-3">
+            {(selectedStage !== 'すべて' || selectedCategory !== 'すべて' || showEatenOnly || searchQuery) && (
+              <button
+                onClick={() => {
+                  setSelectedStage('すべて');
+                  setSelectedCategory('すべて');
+                  setShowEatenOnly(false);
+                  setSearchQuery('');
+                }}
+                className="text-amber-600 hover:underline font-bold"
+              >
+                フィルター解除
+              </button>
+            )}
             <button
-              onClick={() => {
-                setSelectedStage('すべて');
-                setSelectedCategory('すべて');
-                setShowEatenOnly(false);
-                setSearchQuery('');
-              }}
-              className="text-amber-600 hover:underline font-bold"
+              onClick={handleResetDefaultRecipes}
+              className="text-gray-400 hover:text-gray-600 flex items-center gap-1 hover:underline text-[11px]"
+              title="IMG_2155の初期データにリセット"
             >
-              フィルター解除
+              <RefreshCw className="w-3 h-3" />
+              <span>初期データに復元</span>
             </button>
-          )}
+          </div>
         </div>
 
         {/* Responsive Recipe Cards Grid */}
